@@ -21,10 +21,10 @@ As alterações podem ser salvas e restauradas automaticamente com `localStorage
 
 🌟 Demonstração
 Você pode testar este projeto no GitHub Pages:  
-🔗 (https://victor-aunas.github.io/editor-estilos/) 
+🔗 (https://victor-aunas/editor-estilos/) 
 
  📂 Como Rodar Localmente
 ```sh
-git clone https://github.com/seu-usuario/editor-css.git
-cd editor-css
+git clone https://github.com/victor-aunas/editor-estilos.git
+cd editor-estilos
 open index.html
