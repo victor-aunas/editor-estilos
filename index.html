@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Estilos</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: gray;
+            transition: background 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        textarea {
+            width: 90%;
+            height: 200px;
+            font-family: monospace;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            white-space: pre;
+            background: #f4f4f4;
+            resize: vertical;
+        }
+        .editavel {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(253, 253, 253, 0.356);
+            border-radius: 5px;
+            min-height: 50px;   
+        }
+        button {
+            margin: 10px;
+            padding: 10px 15px;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+        .dark-mode {
+            background: black;
+            color: white;
+        }
+        .dark-mode textarea {
+            background: #333;
+            color: white;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Editor de CSS</h1>
+        <p>Edite o código abaixo para modificar os estilos da página:</p>
+        <p>EXEMPLO: Digite p{background-color:#DIGITEACOR} </p>
+        <p>Dica: Para editar texto abaixo coloque .editavel{}</p>
+        <textarea id="styleEditor"></textarea>
+        <br>
+        <button onclick="salvarEstilos()">Salvar Estilos</button>
+        <button onclick="resetarEstilos()">Resetar Estilos</button>
+        <button onclick="baixarCSS()">Baixar CSS</button>
+        <button onclick="toggleModoNoturno()">Modo Noturno</button>
+
+
+        <div class="editavel" contenteditable="true">
+            <h2>Edite este conteúdo à vontade!</h2>
+         </div>
+    </div>
+
+  
+
+    <style id="dynamicStyles"></style>
+
+    <script>
+        function salvarEstilos() {
+            let cssEditado = document.getElementById("styleEditor").value.trim();
+            localStorage.setItem("cssSalvo", cssEditado);
+            alert("Estilos salvos!");
+        }
+
+        function resetarEstilos() {
+            localStorage.removeItem("cssSalvo");
+            document.getElementById("styleEditor").value = "";
+            document.getElementById("dynamicStyles").innerText = "";
+        }
+
+        function baixarCSS() {
+            let cssEditado = document.getElementById("styleEditor").value.trim();
+            let blob = new Blob([cssEditado], { type: "text/css" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "estilo-editado.css";
+            link.click();
+        }
+        function alternarDarkMode() {
+    let body = document.body;
+
+    // Alterna a classe dark-mode no body
+    body.classList.toggle("dark-mode");
+
+    // Salvar a preferência do usuário 
+    if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "on");
+    } else {
+        localStorage.setItem("darkMode", "off");
+    }
+}
+
+// Verifica o localStorage quando carregar a página
+window.onload = function () {
+    let estilosSalvos = localStorage.getItem("cssSalvo");
+    if (estilosSalvos) {
+        document.getElementById("styleEditor").innerText = estilosSalvos;
+    }
+
+    let darkMode = localStorage.getItem("darkMode");
+    if (darkMode === "on") {
+        document.body.classList.add("dark-mode");
+    }
+};
+
+        function toggleModoNoturno() {
+            document.body.classList.toggle("dark-mode");
+        }
+
+        document.getElementById("styleEditor").addEventListener("input", function() {
+            document.getElementById("dynamicStyles").innerText = this.value;
+        });
+
+        window.onload = function () {
+            let estilosSalvos = localStorage.getItem("cssSalvo");
+            if (estilosSalvos) {
+                document.getElementById("styleEditor").value = estilosSalvos;
+                document.getElementById("dynamicStyles").innerText = estilosSalvos;
+            }
+        };
+    </script>
+
+</body>
+</html>
